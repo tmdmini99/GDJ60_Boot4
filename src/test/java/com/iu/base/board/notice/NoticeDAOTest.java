@@ -40,7 +40,7 @@ public class NoticeDAOTest {
       
    }
    
-   //@Test
+   @Test
    void getDetailTest()throws Exception{
       BoardVO boardVO = new NoticeVO();
       boardVO.setNum(2L);
@@ -60,7 +60,7 @@ public class NoticeDAOTest {
 //	      
 //	      
 //	   }
-   @Test
+   //@Test
    void getCountTest()throws Exception{
       Long count = noticeDAO.getTotalCount();
       System.out.println(count);

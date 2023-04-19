@@ -23,17 +23,38 @@
   </sql>
   
   
-  <insert id="setInsert" parameterType="com.iu.base.board.BoardVO">
-  	INSERT INTO NOTICE(TITLE,CONTENTS,WRITER,REGDATE,HIT)
-  	VALUES(#{title},#{contents},#{writer},now(),0)
+  <insert id="setInsert" parameterType="com.iu.base.board.BoardVO" useGeneratedKeys="true" keyProperty="num">
+  	INSERT INTO NOTICE(NUM,TITLE,CONTENTS,WRITER,REGDATE,HIT)
+  	VALUES(#{num},#{title},#{contents},#{writer},now(),0)
   </insert>
   <update id="setUpdate" parameterType="com.iu.base.board.BoardVO">
       UPDATE NOTICE SET CONTENTS =#{contents} WHERE NUM=#{num}
    
    </update>
-   <select id="getDetail" parameterType="com.iu.base.board.BoardVO" resultType="com.iu.base.board.BoardVO">
-   	SELECT * FROM NOTICE WHERE NUM=#{num}
+   <select id="getDetail" parameterType="com.iu.base.board.BoardVO" resultMap="BoardDetail">
+   	SELECT * FROM NOTICE 
+	LEFT JOIN
+	NOTICEFILES
+	USING(NUM)
+	WHERE NUM = #{num}
    </select>
+   
+   <resultMap type="BoardVO" id="BoardDetail">
+   <id property="num" column="NUM"/>
+   <result column="TITLE" property="title"/>
+   <result column="CONTENTS" property="contents"/>
+   <result column="WRITER" property="writer"/>
+   <result column="REGDATE" property="regDate"/>
+   <result column="HIT" property="hit"/>
+   
+   
+   <collection property="boardFileVOs" javaType="List" ofType="BoardFileVO">
+   <id column="FILENUM" property="fileNum"/>
+   <result column="FILENAME" property="fileName"/>
+   <result column="ORINAME" property="oriName"/>
+   </collection>
+   
+   </resultMap>
    
   <select id="getList" resultType="com.iu.base.board.BoardVO" parameterType="Pager">
    	SELECT * FROM NOTICE 
@@ -46,6 +67,12 @@
    <delete id="setDelete" parameterType="com.iu.base.board.BoardVO">
       DELETE FROM NOTICE WHERE NUM=#{num}
    </delete>
-   
+   <insert id="setFileInsert" parameterType="BoardFileVO">
+   	INSERT INTO NOTICEFILES VALUES(#{fileNum},#{num},#{fileName},#{oriName})
+   </insert>
+  <select id="getFileDetail" parameterType="BoardFileVO" resultType="BoardFileVO">
+  	SELECT * FROM NOTICEFILES WHERE FILENUM=#{fileNum}
+  </select>
+  
   
   </mapper>

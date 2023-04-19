@@ -39,7 +39,7 @@
                     	<c:forEach items="${list}" var="boardVO">
                     		<tr>
                     		<td>${boardVO.num}</td>
-                    		<td>${boardVO.title}</td>
+                    		<td><a href="./detail?num=${boardVO.num}">${boardVO.title}</a></td>
                     		<td>${boardVO.writer}</td>
                     		<td>${boardVO.regDate}</td>
                     		<td>${boardVO.hit}</td>
@@ -51,7 +51,46 @@
                     	</table>
                     
                     </div>
-                   <!-- paging -->
+                   
+                   <!-- paging1 -->
+		<div class="row">
+				<nav aria-label="Page navigation example">
+		 			<ul class="pagination">
+			    		<li class="page-item ">
+			      			<a class="page-link" href="./list" aria-label="Previous" data-board-page="1">
+			        			<!-- 						==page=1 -->
+			        			
+			        			<span aria-hidden="true">&laquo;</span>
+			      			</a>
+			    		</li>
+			    		<li class="page-item ${pager.before ? 'disabled' : ''}">
+			      			<a class="page-link" href="/list?page=${pager.startNum-1}" aria-label="Previous" data-board-page="${pager.startNum-1}">
+			        			<span aria-hidden="true">&lsaquo;</span> <!--lsaquo는 꺽쇠 하나 laquo는 꺽쇠 두개  -->
+			      			</a>
+			    		</li>
+			    		<c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
+			    		<li class="page-item"><a class="page-link ${pager.page eq i ? 'active' : '' }" href="./list?page=${i}" data-board-page="${i}">${i}</a></li>
+			    		</c:forEach>
+			    		<!-- &gt = <꺽쇠를 표현 &lt는 >꺽쇠를 표현 -->
+			    		<li class="page-item ${pager.after ? 'disabled' : ''}"> <!--  -->
+			      			<a class="page-link " href="./list?page=${pager.lastNum+1}"  aria-label="Next" data-board-page="${pager.lastNum+1}">
+			        			<span aria-hidden="true">&rsaquo;</span>
+			      			</a>
+			    		</li>
+			    		<li class="page-item "> <!--  -->
+			      			<a class="page-link " href="./list?page=${pager.totalPage}"  aria-label="Next" data-board-page="${pager.totalPage}">
+			        			<span aria-hidden="true">&raquo;</span>
+			      			</a>
+			    		</li>
+		  			</ul>
+				</nav>
+		
+			</div>
+                   
+                   
+                   
+                   
+                   <%-- <!-- paging2 -->
 		<div class="row">
 				<nav aria-label="Page navigation example">
 		 			<ul class="pagination">
@@ -84,7 +123,7 @@
 		  			</ul>
 				</nav>
 		
-			</div>
+			</div> --%>
 			<!-- 검색창 -->
 			<form class="row g-3" action="./list" method="get" id="searchForm">
 				<input type="hidden" name="page" value="1" id="page">
@@ -108,10 +147,11 @@
                 </div>
             </section>
             
+        <a href="./add">write</a>
         
         </main>
 		<!-- footer 적용 -->
-		 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+		<!--  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
   
 		<script type="text/javascript" >
@@ -134,7 +174,7 @@
 		        
 		    });
 		}
-		</script>
+		</script> -->
 		   <c:import url="../temp/footer.jsp"></c:import>
 		<!-- footer 끝  -->
 </body>

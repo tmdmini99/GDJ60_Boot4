@@ -2,6 +2,8 @@ package com.iu.base.board;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.iu.base.util.Pager;
 
 public interface BoardService {
@@ -20,7 +22,7 @@ public interface BoardService {
 		
 		
 		 //글쓰기 
-		public int setInsert(BoardVO boardVO)throws Exception;
+		public int setInsert(BoardVO boardVO, MultipartFile [] multipartFiles)throws Exception;
 		 
 			
 		
@@ -31,4 +33,6 @@ public interface BoardService {
 		//글 삭제
 		public int setDelete(BoardVO boardVO)throws Exception;
 	
+		
+		public BoardFileVO getFileDetail(BoardFileVO boardFileVO) throws Exception;
 }
