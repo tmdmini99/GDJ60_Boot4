@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  
+ <mapper namespace="com.iu.base.board.qna.QnaDAO">
+ <sql id="getBoard">
+ 	<where>
+ 		<if test="kind =='title'">
+ 		
+ 		</if>
+ 		<if test="kind =='contents'">
+ 		
+ 		</if>
+ 		<if test="kind =='writer'">
+ 		
+ 		</if>
+ 	</where>
+ 
+ </sql>
+ 
+ <select id="getList" resultType="QnaVO">
+ 	SELECT * FROM QNA <include refid="getBoard"></include>
+ </select>
+ <select id="getDetail" resultMap="getBoardDetail" parameterType="BoardVO">
+ 	SELECT * FROM QNA 
+ 		LEFT JOIN 
+ 		QNAFILES
+ 		USING(NUM)
+ 	WHERE NUM=#{num}
+ </select>
+ <resultMap type="QnaVO" id="getBoardDetail">
+ <id column="NUM" property="num"/>
+ <result column="TITLE" property="title"/>
+ <result column="CONTENTS" property="contents"/>
+ <result column="WRITER" property="writer"/>
+ <result column="REGDATE" property="regDate"/>
+ <result column="HIT" property="hit"/>
+ <result column="REF" property="ref"/>
+ <result column="STEP" property="step"/>
+ <result column="DEPTH" property="depth"/>
+ <collection property="boardFileVOs" javaType="List" ofType="BoardFileVO">
+ 	<id column="FILENUM" property="fileNum"/>
+ 	<result column="FILENAME" property="fileName"/>
+ 	<result column="ORINAME" property="oriName"/>
+ </collection>
+ </resultMap>
+ <insert id="setInsert" useGeneratedKeys="true" keyProperty="num" parameterType="BoardVO">
+ 	INSERT INTO QNA VALUES(#{num},#{title},#{contents},#{writer},now(),0,0,0,0)
+ </insert>
+ <update id="setRefUpdate" parameterType="BoardVO">
+ 	UPDATE QNA SET REF=#{ref} WHERE NUM=#{num}
+ </update>
+ <insert id="setFileInsert" parameterType="BoardFileVO">
+ INSERT INTO QNAFILES VALUES(#{fileNum},#{num},#{fileName},#{oriName})
+ </insert>
+ <select id="getFileDetail">
+ SELECT * FROM QNAFILES WHERE NUM=#{num} 
+ </select>
+ <select id="getTotalCount" resultType="java.lang.Long">
+ SELECT COUNT(NUM) FROM QNA
+ </select>
+ 
+ 
+ </mapper>

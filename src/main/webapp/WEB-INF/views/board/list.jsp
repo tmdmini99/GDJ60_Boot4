@@ -43,13 +43,18 @@
                     		<td>${boardVO.writer}</td>
                     		<td>${boardVO.regDate}</td>
                     		<td>${boardVO.hit}</td>
+                    		
+                    		
+                    			<td>${boardVO.ref}</td>
+                    			<td>${boardVO.depth}</td>
+                    			<td>${boardVO.step}</td>
+                    		
                     		</tr>
                     	
                     	</c:forEach>
                     	
                     	</tbody>
                     	</table>
-                    
                     </div>
                    
                    <!-- paging1 -->

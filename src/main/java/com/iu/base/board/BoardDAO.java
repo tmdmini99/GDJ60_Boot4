@@ -17,7 +17,7 @@ public interface BoardDAO {
 	
 	
 	 //글리스트 조회 
-	public List< BoardVO> getList(Pager pager) throws Exception;
+	public List<BoardVO> getList(Pager pager) throws Exception;
 	 
 	
 	
