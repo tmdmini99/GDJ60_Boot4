@@ -48,9 +48,7 @@ public class NoticeService  implements BoardService{
 	public int setInsert(BoardVO boardVO, MultipartFile [] multipartFiles) throws Exception {
 		int result = noticeDAO.setInsert(boardVO);
 		log.error("Num===>{}",boardVO.getNum());
-		if(multipartFiles ==null) {
-			throw new Exception();
-		}
+		
 		if(multipartFiles !=null) {
 			for(MultipartFile multipartFile : multipartFiles) {
 				//multipartFile.isEmpty()
