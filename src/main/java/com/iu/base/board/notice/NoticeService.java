@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.iu.base.board.BoardFileVO;
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@Transactional(rollbackFor=Exception.class)
 public class NoticeService  implements BoardService{
 
 	@Autowired
@@ -30,7 +32,7 @@ public class NoticeService  implements BoardService{
 	
 	@Override
 	public List<BoardVO> getList(Pager pager) throws Exception {
-		// TODO Auto-generated method stub
+		
 		pager.makeStartRow();
 		pager.makeNum(noticeDAO.getTotalCount());
 		return noticeDAO.getList(pager);
@@ -46,6 +48,9 @@ public class NoticeService  implements BoardService{
 	public int setInsert(BoardVO boardVO, MultipartFile [] multipartFiles) throws Exception {
 		int result = noticeDAO.setInsert(boardVO);
 		log.error("Num===>{}",boardVO.getNum());
+		if(multipartFiles ==null) {
+			throw new Exception();
+		}
 		if(multipartFiles !=null) {
 			for(MultipartFile multipartFile : multipartFiles) {
 				//multipartFile.isEmpty()
