@@ -1,6 +1,8 @@
 package com.iu.base.member;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,9 +40,18 @@ public class MemberService {
 	public int setMemberInsert(MemberVO memberVO)throws Exception{
 		
 		int result=memberDAO.setMemberInsert(memberVO);
-			if(result == 1) {
-				result=memberDAO.setRoleInsert(memberVO);
-			}
+			Map<String, Object> map = new HashMap<>();
+			map.put("userName", memberVO.getUserName());
+			map.put("num", 3);
+			result = memberDAO.setMemberRole(map);
+		return result;
+	}
+	public int getIdCheck(MemberVO memberVO) throws Exception{
+		memberVO = memberDAO.getIdCheck(memberVO);
+		int result = 0;
+		if(memberVO != null) {
+			result = 1;
+		}
 		return result;
 	}
 }

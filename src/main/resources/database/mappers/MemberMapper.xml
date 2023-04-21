@@ -37,9 +37,16 @@
  	<insert id="setRoleInsert" parameterType="MemberVO">
    INSERT INTO MEMBER_ROLE (USERNAME, NUM) 
    VALUES(#{userName},3)
+   </insert> 
+   <insert id="setMemberRole" parameterType="Map">
+   INSERT INTO MEMBER_ROLE (USERNAME, NUM) 
+   VALUES(#{userName},#{num})
    </insert>
    <insert id="setMemberInsert" parameterType="MemberVO" useGeneratedKeys="true" keyProperty="userName">
       INSERT INTO MEMBER
       VALUES(#{userName},#{password},#{name},#{email},#{birth},1)
    </insert>
+   <select id="getIdCheck" parameterType="MemberVO" resultType="MemberVO">
+   SELECT * FROM MEMBER WHERE USERNAME=#{userName}
+   </select>
  </mapper>
