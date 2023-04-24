@@ -7,12 +7,36 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 
 @Service
 @Transactional(rollbackFor=Exception.class)
 public class MemberService {
 	@Autowired
 	private MemberDAO memberDAO;
+	
+	
+	//패스워드가 일치하는지 검증하는 메서드
+	public boolean memberCheck(MemberVO memberVO, BindingResult bindingResult) throws Exception{
+		boolean result=false;
+		//false : error가 없음,검증 성공
+		//true : error가 실패, 검증 실패
+		//1. annotation 검증 결과
+		result=bindingResult.hasErrors();
+		
+		if(!memberVO.getPassword().equals(memberVO.getPasswordCheck())) {
+			result = true;
+			bindingResult.rejectValue("passwordCheck", "member.password.notEqual");
+		}
+		//3. ID 중복검사
+		if(memberDAO.setMemberLogin(memberVO) != null && memberVO.getUserName().equals(memberDAO.setMemberLogin(memberVO).getUserName())) {
+			result = true;
+			bindingResult.rejectValue("userName", "member.id.eq");
+		}
+		
+		return result;
+	}
+	
 	
 	public MemberVO setMemberLogin(MemberVO memberVO) throws Exception{
 //		 List<MemberVO> memberVO2=memberDAO.setMemberLogin(memberVO);

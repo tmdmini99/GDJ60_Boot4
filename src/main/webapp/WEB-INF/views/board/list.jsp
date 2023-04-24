@@ -44,10 +44,10 @@
                     		<td>${boardVO.regDate}</td>
                     		<td>${boardVO.hit}</td>
                     		
-                    		
+                    		<%-- 
                     			<td>${boardVO.ref}</td>
                     			<td>${boardVO.depth}</td>
-                    			<td>${boardVO.step}</td>
+                    			<td>${boardVO.step}</td> --%>
                     		
                     		</tr>
                     	

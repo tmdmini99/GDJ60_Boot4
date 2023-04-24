@@ -4,14 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.iu.base.board.BoardVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,6 +27,10 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	
+	
+	
+	
 	
 	@GetMapping("admin")
 	public void getAdmin() throws Exception{
@@ -53,14 +62,23 @@ public class MemberController {
 		return mv;
 	}
 	@GetMapping("join")
-	public ModelAndView getMemberJoin() throws Exception{
+	public ModelAndView getMemberJoin(@ModelAttribute MemberVO memberVO) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("member/join");
 		return mv;
 	}
 	@PostMapping("join")
-	public ModelAndView getMemberJoin(MemberVO memberVO) throws Exception{
+	public ModelAndView getMemberJoin(@Valid MemberVO memberVO,BindingResult bindingResult) throws Exception{
 		ModelAndView mv = new ModelAndView();
+		
+		boolean check = memberService.memberCheck(memberVO, bindingResult);
+		
+		if(check) {
+			log.warn("========검증 실패===========");
+			mv.setViewName("member/join");
+			return mv;
+		}
+		
 		int reuslt = memberService.setMemberInsert(memberVO);
 		mv.setViewName("redirect:./login");
 		return mv;

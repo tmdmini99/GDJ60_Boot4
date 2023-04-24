@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,47 +31,55 @@
                         </div>
                         <div class="row gx-5 justify-content-center">
                             <div class="col-lg-8 col-xl-6">
-            <form id="contactForm" action="./join" method="post" data-sb-form-api-token="API_TOKEN" enctype="multipart/form-data">
+            <%-- <form id="contactForm" action="./join" method="post" data-sb-form-api-token="API_TOKEN" enctype="multipart/form-data"> --%>
+            						<form:form id="contactForm" action="./join" modelAttribute="memberVO" method="post" data-sb-form-api-token="API_TOKEN" enctype="multipart/form-data">
                                     <!-- Title input-->
                                     <div class="form-floating mb-3">
-                                        <input class="form-control check" id="userName" type="text" placeholder="Enter Title..." name="userName" data-sb-validations="required" />
-                                        <label for="title">Name</label>
-                                        <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                                        <!-- <input class="form-control check" id="userName" type="text" placeholder="Enter Title..." name="userName" data-sb-validations="required" /> -->
+                                        <form:input path="userName" cssClass="form-control" id="userName"/>
+                                        <form:label path="userName">userName</form:label>
+                                        <form:errors path="userName" cssClass="is-invalid"></form:errors>
+                                        
                                     </div>
                                     <!-- Writer address input-->
                                     <div class="form-floating mb-3">
-                                        <input class="form-control check" id="password" name="password" type="password" data-sb-validations="required,email"/>
-                                        <label for="writer">Password</label>
-                                        <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
-                                        <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+                                        <!-- <input class="form-control check" id="password" name="password" type="password" data-sb-validations="required,email"/> -->
+                                        <form:password path="password" cssClass="form-control" id="password"/>
+                                        <form:label path="password">Password</form:label>
+                                        <form:errors path="password" cssClass="is-invalid"></form:errors>
                                     </div>
-                                     <div class="form-floating mb-3">
-                                        <input class="form-control check" id="passwordCheck" name="passwordCheck" type="password" data-sb-validations="required,email" />
-                                        <label for="writer">PasswordCheck</label>
-                                        <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
-                                        <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+                          <div class="form-floating mb-3">
+                                        <!--  <input class="form-control check" id="passwordCheck" name="passwordCheck" type="password" data-sb-validations="required,email" /> -->
+                                        <form:password path="passwordCheck" cssClass="form-control" id="passwordCheck"/>
+                                        <form:label path="passwordCheck">PasswordCheck</form:label>
+                                        <form:errors path="passwordCheck" cssClass="is-invalid"></form:errors>
+                                    </div> 
+                                    <div class="form-floating mb-3">
+                                        <!-- <input class="form-control check" id="name" type="text" placeholder="Enter Title..." name="name" data-sb-validations="required"/> -->
+                                        <form:input path="name" cssClass="form-control" id="name"/>
+                                        <form:label path="name">Name</form:label>
+                                        <form:errors path="name" cssClass="is-invalid"></form:errors>
                                     </div>
                                     <div class="form-floating mb-3">
-                                        <input class="form-control check" id="name" type="text" placeholder="Enter Title..." name="name" data-sb-validations="required"/>
-                                        <label for="title">Name</label>
-                                        <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                                        <!-- <input class="form-control check" id="email" type="email" placeholder="Enter Title..." name="email" data-sb-validations="required" /> -->
+                                        <form:input path="email" cssClass="form-control" id="name"/>
+                                        <form:label path="email">email</form:label>
+                                        <form:errors path="email" cssClass="is-invalid"></form:errors>
                                     </div>
                                     <div class="form-floating mb-3">
-                                        <input class="form-control check" id="email" type="email" placeholder="Enter Title..." name="email" data-sb-validations="required" />
-                                        <label for="title">Email</label>
-                                        <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input class="form-control check" id="birth" type="date" placeholder="Enter Title..." name="birth"/>
-                                        <label for="title">Birth</label>
+                                         <input class="form-control check" id="birth" type="date" placeholder="Enter Title..." name="birth"/> 
+                                        <%-- <form:input path="birth" cssClass="form-control" id="birth"/> --%>
+                                        <label for="birth">Birth</label>
+                                        <form:errors path="birth"></form:errors>
                                        
                                     </div>
                                     
                                     
                                    
                                     <!-- Submit Button-->
-                                    <div class="d-grid"><button class="btn btn-primary btn-lg" id="submitButton" type="button">Submit</button></div>
-                                </form>
+                                    <div class="d-grid"><button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button></div>
+                               </form:form>
+                                <%-- </form> --%>
                                 </div>
             
             </div>
@@ -82,6 +92,6 @@
 		<!-- footer 적용 -->
 		   <c:import url="../temp/footer.jsp"></c:import>
 		<!-- footer 끝  -->
-		<script type="text/javascript" src="/js/joinFormCheck.js"></script>
+		<!-- <script type="text/javascript" src="/js/joinFormCheck.js"></script> -->
 </body>
 </html>
