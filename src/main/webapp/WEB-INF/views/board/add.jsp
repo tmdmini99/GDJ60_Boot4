@@ -65,24 +65,7 @@
                                         <form:errors path="writer" cssClass="is-invalid"></form:errors>
                                     </div>
                                  
-                                 	<div class="form-floating mb-3">
-                                       <form:input path="subVO.subName" id="writer" cssClass="form-control"/>
-                                        <!-- <input class="form-control" id="writer" type="text" name="writer" data-sb-validations="required,email" /> -->
-                                        <label for="writer">subName</label>
-                                        
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                       <form:input path="boardFileVOs[0].fileName" id="writer" cssClass="form-control"/>
-                                        <!-- <input class="form-control" id="writer" type="text" name="writer" data-sb-validations="required,email" /> -->
-                                        <label for="writer">names</label>
-                                        
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                       <form:input path="boardFileVOs[1].fileName" id="writer" cssClass="form-control"/>
-                                        <!-- <input class="form-control" id="writer" type="text" name="writer" data-sb-validations="required,email" /> -->
-                                        <label for="writer">names</label>
-                                        
-                                    </div>
+                                 	
                                  
                                  	
                                     <!-- Message input-->
