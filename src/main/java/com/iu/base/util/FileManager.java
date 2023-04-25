@@ -52,7 +52,7 @@ public class FileManager extends AbstractView{
 	       
 	       //전송
 	       FileCopyUtils.copy(fi, os);
-	       
+	      
 	       //자원 해제
 	       os.close();
 	       fi.close();

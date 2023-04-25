@@ -97,6 +97,7 @@
                                     </div>
                                 </div>
                             </section>
+                            <a href="./delete?num=${boardVO.num}">delete</a>
                         </div>
                     </div>
                 </div>

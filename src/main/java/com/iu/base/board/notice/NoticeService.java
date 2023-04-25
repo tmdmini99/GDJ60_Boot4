@@ -74,7 +74,13 @@ public class NoticeService  implements BoardService{
 
 	@Override
 	public int setDelete(BoardVO boardVO) throws Exception {
-		return noticeDAO.setDelete(boardVO);
+		int result =noticeDAO.setDelete(boardVO);
+		if(result ==1) {
+			
+		}
+		
+		
+		return result;
 	}
 	
 	@Override

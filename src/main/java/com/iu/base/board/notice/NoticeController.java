@@ -104,4 +104,12 @@ public class NoticeController {
 		
 		return mv;
 	}
+	@GetMapping("delete")
+	public ModelAndView setDelete(NoticeVO noticeVO) throws Exception{
+		ModelAndView mv = new ModelAndView();
+		int result = noticeService.setDelete(noticeVO);
+		mv.setViewName("redirect:./list");
+		
+		return mv;
+	}
 }
