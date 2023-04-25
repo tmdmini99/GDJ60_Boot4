@@ -66,7 +66,7 @@ public class QnaController {
 			return mv;
 		}
 		
-		//int result = noticeService.setInsert(noticeVO,boardFiles);
+		int result = qnaService.setInsert(boardVO,boardFiles);
 		for(MultipartFile multipartFile : boardFiles) {
 			log.info("OriginalName : {} Size : {}",multipartFile.getOriginalFilename(),multipartFile.getSize());
 		}

@@ -78,7 +78,7 @@ public class NoticeController {
 			return mv;
 		}
 		
-		//int result = noticeService.setInsert(noticeVO,boardFiles);
+		int result = noticeService.setInsert(boardVO,boardFiles);
 		for(MultipartFile multipartFile : boardFiles) {
 			log.info("OriginalName : {} Size : {}",multipartFile.getOriginalFilename(),multipartFile.getSize());
 		}
