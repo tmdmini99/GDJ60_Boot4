@@ -43,10 +43,35 @@
    VALUES(#{userName},#{num})
    </insert>
    <insert id="setMemberInsert" parameterType="MemberVO" useGeneratedKeys="true" keyProperty="userName">
-      INSERT INTO MEMBER
+      INSERT INTO MEMBER(USERNAME,PASSWORD,NAME,EMAIL,BIRTH,ENABLED)
       VALUES(#{userName},#{password},#{name},#{email},#{birth},1)
    </insert>
    <select id="getIdCheck" parameterType="MemberVO" resultType="MemberVO">
    SELECT * FROM MEMBER WHERE USERNAME=#{userName}
    </select>
+   <select id="getMemberList" resultType="MemberVO">
+   	SELECT * FROM MEMBER
+   </select>
+   <update id="setLogout" parameterType="MemberVO">
+   	UPDATE MEMBER SET LASTTIME=now() WHERE USERNAME=#{userName}
+   </update>
+   <select id="getLogoutTime" parameterType="MemberVO" resultType="Int">
+   	SELECT TIMESTAMPDIFF(DAY, #{lastTime}, now());
+   </select>
+   <update id="setEnable" parameterType="MemberVO">
+   	UPDATE MEMBER SET ENABLED = 0 WHERE USERNAME=#{userName}
+   </update>
+   <update id="setEnables" parameterType="MemberVO">
+   	<![CDATA[
+   	UPDATE MEMBER SET ENABLED = 0 WHERE LASTTIME <=NOW() - INTERVAL 3DAY
+   	]]>
+   </update>
+   <update id="setEnablesss" parameterType="MemberVO">
+   	UPDATE MEMBER SET ENABLED = 0
+WHERE USERNAME IN (SELECT USERNAME FROM MEMBER WHERE TIMESTAMPDIFF(DAY, LASTTIME, NOW()) >= 3) ;
+   </update>
+   <select id="getBirth" resultType="MemberVO">
+   		SELECT * FROM MEMBER WHERE DATE_FORMAT(BIRTH ,'%m-%d') = DATE_FORMAT(now(),'%m-%d')   
+   </select>
+    
  </mapper>

@@ -20,5 +20,18 @@ public interface MemberDAO {
 
 	public int setMemberRole(Map<String, Object> map);
 	
+	public List<MemberVO> getMemberList() throws Exception;
+	
+	public int setLogout(MemberVO memberVO) throws Exception;
+	
+	public int getLogoutTime(MemberVO memberVO)throws Exception;
+	
+	public int setEnable(MemberVO memberVO) throws Exception;
+	
+	public int setEnables(MemberVO memberVO) throws Exception;
+	
+	public int setEnabless(MemberVO memberVO) throws Exception;
+	
+	public List<MemberVO> getBirth() throws Exception;
 	
 }

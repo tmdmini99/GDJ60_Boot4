@@ -78,4 +78,18 @@ public class MemberService {
 		}
 		return result;
 	}
+	public int setLogout(MemberVO memberVO) throws Exception{
+		return memberDAO.setLogout(memberVO);
+	}
+	public int getLogoutTime(MemberVO memberVO)throws Exception{
+		int result = memberDAO.getLogoutTime(memberVO);
+		return result;
+	}
+	
+	public int setEnable(MemberVO memberVO) throws Exception{
+		return memberDAO.setEnable(memberVO);
+	}
+	public List<MemberVO> getBirth() throws Exception{
+		return memberDAO.getBirth();
+	}
 }

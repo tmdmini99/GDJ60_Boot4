@@ -29,4 +29,6 @@ public class MemberVO {
 	private boolean enabled;
 	private RoleVO roleVO;
 	private List<RoleVO> roleVOs;
+	
+	private Date lastTime;
 }

@@ -73,6 +73,9 @@
   <select id="getFileDetail" parameterType="BoardFileVO" resultType="BoardFileVO">
   	SELECT * FROM NOTICEFILES WHERE FILENUM=#{fileNum}
   </select>
+	<select id="getCount" resultType="Int">
+ 	SELECT COUNT(NUM) FROM NOTICE WHERE TITLE = '오늘의 생일' AND DATE_FORMAT(NOW(), '%y-%m-%d') =  DATE_FORMAT(REGDATE, '%y-%m-%d');
+ </select>
   
   
   </mapper>
