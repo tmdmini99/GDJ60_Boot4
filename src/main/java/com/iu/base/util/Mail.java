@@ -54,6 +54,30 @@ public class Mail {
 	        javaMailSender.send(simpleMessage);
 	        }
 	    }
+		public void sendMail(MemberVO memberVO) throws Exception{
+			        
+			        // 수신 대상을 담을 ArrayList 생성
+			       
+			        // 수신 대상 개수
+			        
+			        
+			        
+			        // SimpleMailMessage (단순 텍스트 구성 메일 메시지 생성할 때 이용)
+			        SimpleMailMessage simpleMessage = new SimpleMailMessage();
+			        
+			        // 수신자 설정
+			        simpleMessage.setTo("tmdals7871@gmail.com");
+			        
+			        // 메일 제목
+			        simpleMessage.setSubject("비밀번호 발송");
+			        
+			        // 메일 내용
+			        simpleMessage.setText("비밀번호는 "+memberVO.getPassword()+" 입니다");
+			        
+			        // 메일 발송
+			        javaMailSender.send(simpleMessage);
+			        
+			    }
 //	    public void sendMail() {
 //	        
 //	        // 수신 대상을 담을 ArrayList 생성

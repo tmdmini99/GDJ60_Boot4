@@ -1,12 +1,15 @@
 package com.iu.base.member;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +33,24 @@ public class MemberController {
 	
 	
 	
+	@GetMapping("info")
+	public void info(HttpSession httpSession) {
+		log.error("==============login Info===============");
+		//SPRING_SECURITY_CONTEXT
+//		Enumeration<String> names=httpSession.getAttributeNames();
+//		while (names.hasMoreElements()) {
+//			log.error("=============={}===============",names.nextElement());
+//			
+//		}
+		Object obj=httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContextImpl contextImpl= (SecurityContextImpl)obj;
+		Authentication authentication=contextImpl.getAuthentication();
+		
+		log.error("=========={}=======",obj);
+		log.error("==========NAME : {}=======",authentication.getName());
+		log.error("==========DETAILS : {}=======",authentication.getDetails());
+		log.error("==========Principal : {}=======",authentication.getPrincipal());
+	}
 	
 	
 	@GetMapping("admin")
@@ -50,17 +71,17 @@ public class MemberController {
 		mv.setViewName("member/login");
 		return mv;
 	}
-	@PostMapping("login")
-	public ModelAndView getMemberLogin(MemberVO memberVO,HttpSession session) throws Exception{
-		ModelAndView mv = new ModelAndView();
-		memberVO=memberService.setMemberLogin(memberVO);
-		mv.setViewName("redirect:./login");
-		if(memberVO !=null) {
-			session.setAttribute("member", memberVO);
-			mv.setViewName("redirect:/");
-		}
-		return mv;
-	}
+//	@PostMapping("login")
+//	public ModelAndView getMemberLogin(MemberVO memberVO,HttpSession session) throws Exception{
+//		ModelAndView mv = new ModelAndView();
+//		memberVO=memberService.setMemberLogin(memberVO);
+//		mv.setViewName("redirect:./login");
+//		if(memberVO !=null) {
+//			session.setAttribute("member", memberVO);
+//			mv.setViewName("redirect:/");
+//		}
+//		return mv;
+//	}
 	@GetMapping("join")
 	public ModelAndView getMemberJoin(@ModelAttribute MemberVO memberVO) throws Exception{
 		ModelAndView mv = new ModelAndView();
@@ -104,5 +125,22 @@ public class MemberController {
 			}
 		return check;
 		
+	}
+	@GetMapping("findPassword")
+	public ModelAndView setFindPassword(@ModelAttribute MemberVO memberVO) throws Exception{
+		ModelAndView mv = new ModelAndView();
+		
+		mv.setViewName("member/findPw");
+		return mv;
+	}
+	@PostMapping("findPassword")
+	public ModelAndView setFindPassword(@Valid MemberVO memberVO,BindingResult bindingResult) throws Exception{
+		ModelAndView mv = new ModelAndView();
+		boolean result =memberService.setPwChange(memberVO,bindingResult);
+		if(!result) {
+			mv.addObject("check", 1);
+		}
+		mv.setViewName("member/findPw");
+		return mv;
 	}
 }

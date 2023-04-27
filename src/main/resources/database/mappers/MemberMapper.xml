@@ -15,15 +15,15 @@
 			ROLE
 			USING(NUM)
 		
-		 WHERE USERNAME=#{userName}
+		 WHERE USERNAME=#{username}
 	</select> 
  	<resultMap type="MemberVO" id="memberLogin">
- 	<id column="USERNAME" property="userName"/>
+ 	<id column="username" property="username"/>
  	<result column="PASSWORD" property="password"/>
  	<result column="NAME" property="name"/>
  	<result column="EMAIL" property="email"/>
  	<result column="BIRTH" property="birth"/>
- 	<result column="ENABLED" property="enabled"/>
+ 	<!-- <result column="ENABLED" property="enabled"/> -->
  	<!-- <association property="roleVO" javaType="RoleVO">
  	<id column="NUM" property="num"/>
  	<result column="ROLENAME" property="roleName"/>
@@ -36,30 +36,30 @@
  	
  	<insert id="setRoleInsert" parameterType="MemberVO">
    INSERT INTO MEMBER_ROLE (USERNAME, NUM) 
-   VALUES(#{userName},3)
+   VALUES(#{username},3)
    </insert> 
    <insert id="setMemberRole" parameterType="Map">
    INSERT INTO MEMBER_ROLE (USERNAME, NUM) 
-   VALUES(#{userName},#{num})
+   VALUES(#{username},#{num})
    </insert>
-   <insert id="setMemberInsert" parameterType="MemberVO" useGeneratedKeys="true" keyProperty="userName">
+   <insert id="setMemberInsert" parameterType="MemberVO" useGeneratedKeys="true" keyProperty="username">
       INSERT INTO MEMBER(USERNAME,PASSWORD,NAME,EMAIL,BIRTH,ENABLED)
-      VALUES(#{userName},#{password},#{name},#{email},#{birth},1)
+      VALUES(#{username},#{password},#{name},#{email},#{birth},1)
    </insert>
    <select id="getIdCheck" parameterType="MemberVO" resultType="MemberVO">
-   SELECT * FROM MEMBER WHERE USERNAME=#{userName}
+   SELECT USERNAME FROM MEMBER WHERE USERNAME=#{username}
    </select>
    <select id="getMemberList" resultType="MemberVO">
    	SELECT * FROM MEMBER
    </select>
    <update id="setLogout" parameterType="MemberVO">
-   	UPDATE MEMBER SET LASTTIME=now() WHERE USERNAME=#{userName}
+   	UPDATE MEMBER SET LASTTIME=now() WHERE USERNAME=#{username}
    </update>
    <select id="getLogoutTime" parameterType="MemberVO" resultType="Int">
    	SELECT TIMESTAMPDIFF(DAY, #{lastTime}, now());
    </select>
    <update id="setEnable" parameterType="MemberVO">
-   	UPDATE MEMBER SET ENABLED = 0 WHERE USERNAME=#{userName}
+   	UPDATE MEMBER SET ENABLED = 0 WHERE USERNAME=#{username}
    </update>
    <update id="setEnables" parameterType="MemberVO">
    	<![CDATA[
@@ -72,6 +72,13 @@ WHERE USERNAME IN (SELECT USERNAME FROM MEMBER WHERE TIMESTAMPDIFF(DAY, LASTTIME
    </update>
    <select id="getBirth" resultType="MemberVO">
    		SELECT * FROM MEMBER WHERE DATE_FORMAT(BIRTH ,'%m-%d') = DATE_FORMAT(now(),'%m-%d')   
+   </select>
+   <update id="setPwChange" parameterType="MemberVO">
+   	UPDATE MEMBER SET PASSWORD=#{password} WHERE USERNAME=#{username}
+   </update>
+   
+   <select id="getEmailCheck" resultType="MemberVO" parameterType="MemberVO">
+   	SELECT * FROM MEMBER WHERE USERNAME=#{username} AND EMAIL = #{email}
    </select>
     
  </mapper>

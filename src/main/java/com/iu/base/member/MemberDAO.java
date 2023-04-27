@@ -34,4 +34,9 @@ public interface MemberDAO {
 	
 	public List<MemberVO> getBirth() throws Exception;
 	
+	public int setPwChange(MemberVO memberVO) throws Exception;
+	
+	
+	
+	public MemberVO getEmailCheck(MemberVO memberVO) throws Exception;
 }

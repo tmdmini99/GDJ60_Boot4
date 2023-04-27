@@ -3,18 +3,33 @@ package com.iu.base.member;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
+import com.iu.base.util.Mail;
+
+import lombok.extern.slf4j.Slf4j;
+
 @Service
 @Transactional(rollbackFor=Exception.class)
-public class MemberService {
+@Slf4j
+public class MemberService implements UserDetailsService{
 	@Autowired
 	private MemberDAO memberDAO;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private Mail mail;
 	
 	//패스워드가 일치하는지 검증하는 메서드
 	public boolean memberCheck(MemberVO memberVO, BindingResult bindingResult) throws Exception{
@@ -29,9 +44,9 @@ public class MemberService {
 			bindingResult.rejectValue("passwordCheck", "member.password.notEqual");
 		}
 		//3. ID 중복검사
-		if(memberDAO.setMemberLogin(memberVO) != null && memberVO.getUserName().equals(memberDAO.setMemberLogin(memberVO).getUserName())) {
+		if(memberDAO.setMemberLogin(memberVO) != null && memberVO.getUsername().equals(memberDAO.setMemberLogin(memberVO).getUsername())) {
 			result = true;
-			bindingResult.rejectValue("userName", "member.id.eq");
+			bindingResult.rejectValue("username", "member.id.eq");
 		}
 		
 		return result;
@@ -62,10 +77,11 @@ public class MemberService {
 		return memberVO;
 	}
 	public int setMemberInsert(MemberVO memberVO)throws Exception{
+		memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
 		
 		int result=memberDAO.setMemberInsert(memberVO);
 			Map<String, Object> map = new HashMap<>();
-			map.put("userName", memberVO.getUserName());
+			map.put("username", memberVO.getUsername());
 			map.put("num", 3);
 			result = memberDAO.setMemberRole(map);
 		return result;
@@ -92,4 +108,57 @@ public class MemberService {
 	public List<MemberVO> getBirth() throws Exception{
 		return memberDAO.getBirth();
 	}
+
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		// TODO Auto-generated method stub
+		log.error("===================Spring Security Login ===========");
+		log.error("=================== {} ===========",username);
+		MemberVO memberVO = new MemberVO();
+		memberVO.setUsername(username);
+		try {
+			memberVO=memberDAO.setMemberLogin(memberVO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return memberVO;
+	}
+	public boolean setPwChange(MemberVO memberVO, BindingResult bindingResult) throws Exception{
+		boolean result = false;
+		MemberVO memberVO2 = new MemberVO();
+		
+		memberVO2 = memberDAO.getIdCheck(memberVO);
+		if(memberVO2 == null) {
+			result = true;
+			bindingResult.rejectValue("username", "member.username.notEqual");
+			
+		}
+		memberVO2 = memberDAO.getEmailCheck(memberVO);
+		if(memberVO2 == null) {
+			result = true;
+			bindingResult.rejectValue("email", "member.email.notEqual");
+		}
+		if(memberVO2 != null) {
+		
+		int leftLimit = 48; // numeral '0'
+		 int rightLimit = 122; // letter 'z'
+		 int targetStringLength = 6;
+		 Random random = new Random();
+		 String generatedString = random.ints(leftLimit, rightLimit + 1)
+		                                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+		                                .limit(targetStringLength)
+		                                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+		                                .toString();
+		 memberVO.setPassword(generatedString);
+		 mail.sendMail(memberVO);
+		 memberVO.setPassword(passwordEncoder.encode(generatedString));
+		  memberDAO.setPwChange(memberVO);
+		}
+        return result;
+	}
+	
+	
+	
 }

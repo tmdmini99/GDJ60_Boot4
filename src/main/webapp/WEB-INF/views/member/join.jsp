@@ -36,9 +36,9 @@
                                     <!-- Title input-->
                                     <div class="form-floating mb-3">
                                         <!-- <input class="form-control check" id="userName" type="text" placeholder="Enter Title..." name="userName" data-sb-validations="required" /> -->
-                                        <form:input path="userName" cssClass="form-control" id="userName"/>
-                                        <form:label path="userName">userName</form:label>
-                                        <form:errors path="userName" cssClass="is-invalid"></form:errors>
+                                        <form:input path="username" cssClass="form-control" id="username"/>
+                                        <form:label path="username">userName</form:label>
+                                        <form:errors path="username" cssClass="is-invalid"></form:errors>
                                         
                                     </div>
                                     <!-- Writer address input-->
