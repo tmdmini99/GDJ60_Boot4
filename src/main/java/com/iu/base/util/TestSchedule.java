@@ -58,7 +58,7 @@ public class TestSchedule {
 	   
 	   List<MemberVO> ar = memberDAO.getBirth();
 	   log.error("==========실행=======");
-	   if(noticeDAO.getCount() <1) {
+	   if(noticeDAO.getCount() <1 && ar.size()>0) {
 	   mail.sendMail();
 		NoticeVO noticeVO = new NoticeVO();
 	   noticeVO.setTitle("오늘의 생일");
