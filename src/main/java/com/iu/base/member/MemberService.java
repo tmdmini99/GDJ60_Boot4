@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Transactional(rollbackFor=Exception.class)
 @Slf4j
-public class MemberService implements UserDetailsService{
+public class MemberService implements UserDetailsService {
 	@Autowired
 	private MemberDAO memberDAO;
 	
@@ -31,6 +31,12 @@ public class MemberService implements UserDetailsService{
 	@Autowired
 	private Mail mail;
 	
+	
+	
+	
+	
+
+
 	//패스워드가 일치하는지 검증하는 메서드
 	public boolean memberCheck(MemberVO memberVO, BindingResult bindingResult) throws Exception{
 		boolean result=false;

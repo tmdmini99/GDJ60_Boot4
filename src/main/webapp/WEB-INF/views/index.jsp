@@ -46,9 +46,13 @@
                         <!-- message -->
                         <h1>
                        
-                        	<spring:message code="loginSuccess" text="없는" arguments="${member.userName},${member.name}" argumentSeparator=","></spring:message>
-                        	<sec:authorize access="isAuthenticated()">로그인 성공</sec:authorize>
+                        	<spring:message code="loginSuccess" text="없는" arguments="${member.username},${member.name}" argumentSeparator=","></spring:message>
+                        	<sec:authorize access="isAuthenticated()">
+                        		로그인 성공
+                        		<sec:authentication property="name"/>
+                        		</sec:authorize>
                         	<sec:authorize access="!isAuthenticated()">로그인 실패</sec:authorize>
+                        	
                         </h1>
                         <h2 class="fw-bolder mb-0">A better way to start building.</h2></div>
                         

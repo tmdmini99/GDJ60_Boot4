@@ -10,6 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.iu.base.member.MemberService;
+import com.iu.base.member.MemberSocialService;
 import com.iu.base.security.UserLoginFailHandler;
 import com.iu.base.security.UserLogoutSuccessHandler;
 import com.iu.base.security.UserSuccessHandler;
@@ -18,6 +20,8 @@ import com.iu.base.security.UserSuccessHandler;
 @EnableWebSecurity
 public class SecurityConfig {
 	
+	@Autowired
+	private MemberSocialService memberSocialService;
 	
 	@Autowired
 	private UserLogoutSuccessHandler logoutSuccessHandler;
@@ -68,8 +72,14 @@ public class SecurityConfig {
 				.invalidateHttpSession(true)
 				.deleteCookies("JSESSIONID")
 				.permitAll()
-			
-
+				.and()
+//				.sessionManagement()
+//					.maximumSessions(1)//허용가능한 session 수, -1: 무제한
+//					.maxSessionsPreventsLogin(false)//false : 이전 사용자 세션 만료  true : 새로운 사용자 인증 실패
+				//.and()
+				.oauth2Login()
+					.userInfoEndpoint()
+					.userService(memberSocialService)
 			;
 		return httpSecurity.build();
 	}
