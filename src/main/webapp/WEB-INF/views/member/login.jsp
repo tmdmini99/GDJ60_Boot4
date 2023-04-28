@@ -29,7 +29,10 @@
                         </div>
                         <div class="row gx-5 justify-content-center">
                             <div class="col-lg-8 col-xl-6">
-            <form id="contactForm" action="./login" method="post" data-sb-form-api-token="API_TOKEN" enctype="multipart/form-data">
+            					<c:if test="${not empty param.errorMessage}">
+            						<h1>${param.errorMessage}</h1>
+            					</c:if>
+            					<form id="contactForm" action="./login" method="post" data-sb-form-api-token="API_TOKEN" enctype="multipart/form-data">
                                     <!-- Title input-->
                                     <div class="form-floating mb-3">
                                         <input value="${cookie.remember.value}" class="form-control" id="title" type="text" placeholder="Enter Title..." name="username" data-sb-validations="required" />
@@ -66,6 +69,9 @@
         </main>
 		<!-- footer 적용 -->
 		   <c:import url="../temp/footer.jsp"></c:import>
+		   <script type="text/javascript">
+		   history.replaceState({}, null, location.pathname)
+		   </script>
 		<!-- footer 끝  -->
 </body>
 </html>

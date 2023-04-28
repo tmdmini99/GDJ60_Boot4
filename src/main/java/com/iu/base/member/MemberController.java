@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,10 +32,20 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@GetMapping("info")
 	public void info(HttpSession httpSession) {
+		String pw = "user3";
+		MemberVO memberVO=(MemberVO)memberService.loadUserByUsername("user3");
+		log.error("============== {}===============",memberVO.getPassword());
+		log.error("============== {}===============",passwordEncoder.encode(pw));
+		
+		//내가 입력한 pw와 db에 저장된 pw로 비교 할시 matches를 이용하여 비교
+		boolean check=passwordEncoder.matches(pw, memberVO.getPassword());
+		log.error("============== {}===============",check);
+		
 		log.error("==============login Info===============");
 		//SPRING_SECURITY_CONTEXT
 //		Enumeration<String> names=httpSession.getAttributeNames();
