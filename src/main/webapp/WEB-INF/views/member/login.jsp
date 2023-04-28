@@ -32,7 +32,7 @@
             <form id="contactForm" action="./login" method="post" data-sb-form-api-token="API_TOKEN" enctype="multipart/form-data">
                                     <!-- Title input-->
                                     <div class="form-floating mb-3">
-                                        <input class="form-control" id="title" type="text" placeholder="Enter Title..." name="username" data-sb-validations="required" />
+                                        <input value="${cookie.remember.value}" class="form-control" id="title" type="text" placeholder="Enter Title..." name="username" data-sb-validations="required" />
                                         <label for="title">Name</label>
                                         <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
                                     </div>
@@ -42,6 +42,10 @@
                                         <label for="writer">Password</label>
                                         <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
                                         <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input  id="remember" name="remember" type="checkbox"   value="remember"/>
+                                        <label for="remember">REMEMBER ID</label>
                                     </div>
                                     
                                     
