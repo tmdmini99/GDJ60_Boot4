@@ -13,6 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import com.iu.base.member.MemberService;
 import com.iu.base.member.MemberSocialService;
 import com.iu.base.security.UserLoginFailHandler;
+import com.iu.base.security.UserLogoutHandler;
 import com.iu.base.security.UserLogoutSuccessHandler;
 import com.iu.base.security.UserSuccessHandler;
 
@@ -26,6 +27,12 @@ public class SecurityConfig {
 	@Autowired
 	private UserLogoutSuccessHandler logoutSuccessHandler;
 	
+	@Autowired
+	private UserSuccessHandler userSuccessHandler;
+	
+	
+	@Autowired
+	private UserLogoutHandler userLogoutHandler;
 	@Bean
 	WebSecurityCustomizer wegSecurityConfig() {
 		
@@ -61,14 +68,15 @@ public class SecurityConfig {
 				.loginPage("/member/login")
 				//.usernameParameter("userName")  //id 파라미터는 username이지만, 개발자가 다른 파라미터 이름을 사용할 때
 				//.defaultSuccessUrl("/")  //인증에 성공할 경우 요청할 URL
-				.successHandler(new UserSuccessHandler())
+				.successHandler(userSuccessHandler)
 				//.failureUrl("/member/login")
 				.failureHandler(new UserLoginFailHandler())
 				.permitAll().and()
 			.logout()
 				.logoutUrl("/member/logout")
 				//.logoutSuccessUrl("/")
-				.logoutSuccessHandler(new UserLogoutSuccessHandler())
+				//.addLogoutHandler(userLogoutHandler)
+				.logoutSuccessHandler(logoutSuccessHandler)
 				.invalidateHttpSession(true)
 				.deleteCookies("JSESSIONID")
 				.permitAll()

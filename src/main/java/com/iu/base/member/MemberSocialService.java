@@ -37,31 +37,34 @@ public class MemberSocialService extends DefaultOAuth2UserService{
 		
 		return this.socialJoinCheck(userRequest);
 	}
-	private OAuth2User socialJoinCheck(OAuth2UserRequest auth2UserRequest) {
-		//DB에서 조회 후 회원 추가 또는 회원정보 조회
-		// Kakao에서 받은 정보를 MemberVO로 변경
-		OAuth2User user = super.loadUser(auth2UserRequest);
-		Map<String, Object> map=user.getAttributes();
-		Iterator<String> it=map.keySet().iterator();
-		while(it.hasNext()) {
-			String key = it.next();
-			log.error("key :: {}",key);
-			log.error("value :: {}",map.get(key));
-			
-		}
-		HashMap<String, Object> map2=(HashMap<String, Object>)map.get("properties");
-		log.error("{}:::",map2.get("nickname"));
-		MemberVO memberVO = new MemberVO();
-		memberVO.setUsername(map2.get("nickname").toString());
-		
-		List<RoleVO> roleVOs = new ArrayList<>();
-		RoleVO roleVO = new RoleVO();
-		roleVO.setRoleName("ROLE_MEMBER");
-		roleVOs.add(roleVO);
-		memberVO.setRoleVOs(roleVOs);
-		memberVO.setEnabled(true);
-		
-		return memberVO;
-		
-	}
+	private OAuth2User socialJoinCheck(OAuth2UserRequest oAuth2UserRequest) {
+	      //db에 조회 후 회원 추가 또는 회원정보 조회
+	      OAuth2User user = super.loadUser(oAuth2UserRequest);
+	      
+	      Map<String, Object> map=user.getAttributes();
+	      Iterator<String> it= map.keySet().iterator();
+	      
+	      while(it.hasNext()) {
+	         String key = it.next();
+//	         log.error("key : {}",key);
+//	         log.error("value : {}",map.get(key));
+//	         
+	      }
+	      HashMap<String, Object> m=(HashMap<String, Object>)map.get("properties");
+	      log.error("nickName{} ::",m.get("nickname"));
+	      
+	      MemberVO memberVO = new MemberVO();
+	      memberVO.setAttributes(map);
+	      memberVO.setUsername(m.get("nickname").toString());
+	      
+	      List<RoleVO> roleVOs = new ArrayList<>();
+	      RoleVO roleVO = new RoleVO();
+	      roleVO.setRoleName("ROLE_MEMBER");
+	      roleVOs.add(roleVO);
+	      
+	      memberVO.setRoleVOs(roleVOs);
+	      
+	      memberVO.setEnabled(true);
+	      return memberVO;
+	   }
 }

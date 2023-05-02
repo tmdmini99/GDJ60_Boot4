@@ -50,6 +50,12 @@
                         	<sec:authorize access="isAuthenticated()">
                         		로그인 성공
                         		<sec:authentication property="name"/>
+                        		<form action="https://kauth.kakao.com/oauth/logout" method="post" novalidate="true">
+                                <input name="stsc" value="f-W-ixOnRs286YU7iWq4JolcQ_1_w_nmWTgCY16BDbSha3OLc-h4-Z6Y_6L3qrAxJdfyQf9BO0SI6TGB9fkTzlowjtMytL6fXEnCKwwGJTNPWHFwZpSWqqBU1Yd-Gijlol-Lbe0rd7UdPaQ1W_qzDA" type="hidden">
+                                <input name="csts" value="2QRbnHVtEr4-7cBfhr1TyLZsougq54UNsbJUjMbb7D8LXMD72XfbmDwJ2HbSNUxIgW9Ci4DlCLTCisbtbAWb8C1NToPrlGv7iiqeTE3-QEURZYA1GjQSXnzGasstAO7uw_zdHNNHp6o73IeIRoxzL3OSJAwTyNBNdicWUrgfzY4cGkC6vd-ssLDGLhJOnJLnJtBvyqXnpMwRqCjsCOhny6CG3np3TYBN_Z4AioQAl1jjfxoIfg-4sIMlbP4QB5xVBlfBKLwv6o8w_ZhXssSdiA" type="hidden">
+                                <button class="btn_g" type="submit" name="logout_with_kakao" value="false">이 서비스만 로그아웃</button>
+                                <button class="btn_g" type="submit" name="logout_with_kakao" value="true">카카오계정과 함께 로그아웃</button>
+                            </form>
                         		</sec:authorize>
                         	<sec:authorize access="!isAuthenticated()">로그인 실패</sec:authorize>
                         	
